@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Form Input Data</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background: url('https://source.unsplash.com/1600x900/?finance,money') no-repeat center center fixed;
+        background-size: cover;
+      }
+
+      .form-container {
+        width: 350px;
+        padding: 30px;
+        background: rgba(255, 255, 255, 0.9);
+        margin: 100px auto;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        position: relative;
+      }
+
+      .form-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .form-container input,
+      .form-container button {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+      }
+
+      .form-container button {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+
+      .form-container button:hover {
+        background-color: #218838;
+      }
+
+      .form-container button:disabled {
+        background-color: #6c757d;
+        cursor: not-allowed;
+      }
+
+      .alert {
+        padding: 10px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        text-align: center;
+      }
+
+      .alert.success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .alert.error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      <div id="alertBox"></div>
+      <h2>Input Data Keuangan</h2>
+      <form name="submit-to-google-sheet">
+        <input name="Kategori" type="text" placeholder="Kategori" required />
+        <input name="Deskripsi" type="text" placeholder="Deskripsi" />
+        <input name="Jumlah(Rp)" type="number" placeholder="Jumlah (Rp)" required />
+        <input name="MetodePembayaran" type="text" placeholder="Metode Pembayaran" />
+        <input name="Keterangan" type="text" placeholder="Keterangan" />
+        <button type="submit" id="submitBtn">Kirim</button>
+      </form>
+    </div>
+
+    <script>
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbx3hPEWmWo7yW12V9VMB51Vek7UfyC8EeL42PXzuqb8wx01_YZC_Aau_jt9GQ5EFeZAAg/exec';
+      const form = document.forms['submit-to-google-sheet'];
+      const alertBox = document.getElementById('alertBox');
+      const submitBtn = document.getElementById('submitBtn');
+
+      function showAlert(message, type) {
+        alertBox.innerHTML = `<div class="alert ${type}">${message}</div>`;
+        setTimeout(() => {
+          alertBox.innerHTML = '';
+        }, 3000);
+      }
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        // Ubah tombol jadi loading
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Loading...';
+
+        fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+          .then((response) => {
+            showAlert('✅ Data berhasil dikirim!', 'success');
+            form.reset(); // kosongkan form
+          })
+          .catch((error) => {
+            showAlert('❌ Terjadi kesalahan saat mengirim data.', 'error');
+            console.error('Error!', error.message);
+          })
+          .finally(() => {
+            // Kembalikan tombol seperti semula
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Kirim';
+          });
+      });
+    </script>
+  </body>
+</html>
