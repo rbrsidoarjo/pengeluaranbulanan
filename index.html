@@ -77,13 +77,33 @@
   <body>
     <div class="form-container">
       <div id="alertBox"></div>
-      <h2>Input Data Keuangan</h2>
+      <h2>Input Data Keuangan Negara</h2>
+      <p>PT. Rosyidah Makmur Jaya Mentari Abadi Selamanya</p>
       <form name="submit-to-google-sheet">
-        <input name="Kategori" type="text" placeholder="Kategori" required />
+        <!-- Dropdown Kategori -->
+        <select name="Kategori" required>
+          <option value="">-- Pilih Kategori --</option>
+          <option value="RBR">RBR</option>
+          <option value="Tunggakan">Tunggakan</option>
+          <option value="Kebutuhan Ibu">Kebutuhan Ibu</option>
+          <option value="Kebutuhan Aiz">Kebutuhan Aiz</option>
+          <option value="Kebutuhan Fawwaz">Kebutuhan Fawwaz</option>
+          <option value="Kebutuhan Faizzah">Kebutuhan Faizzah</option>
+          <option value="Rumah Tangga">Rumah Tangga</option>
+        </select>
+        <!-- Input Deskripsi -->
         <input name="Deskripsi" type="text" placeholder="Deskripsi" />
+        <!-- Input Jumlah -->
         <input name="Jumlah(Rp)" type="number" placeholder="Jumlah (Rp)" required />
-        <input name="MetodePembayaran" type="text" placeholder="Metode Pembayaran" />
+        <!-- Dropdown Metode Pembayaran -->
+        <select name="MetodePembayaran" required>
+          <option value="">-- Pilih Metode Pembayaran --</option>
+          <option value="Tunai">Tunai</option>
+          <option value="Transfer">Transfer</option>
+        </select>
+        <!-- Input Keterangan -->
         <input name="Keterangan" type="text" placeholder="Keterangan" />
+        <!-- Tombol Kirim -->
         <button type="submit" id="submitBtn">Kirim</button>
       </form>
     </div>
